@@ -1,0 +1,17 @@
+#cloud-config
+password: password
+chpasswd:
+  expire: false
+write_files:
+  - path: /etc/systemd/system/serial-getty@ttyS0.service.d/autologin.conf
+    permissions: '0644'
+    content: |
+      [Service]
+      ExecStart=
+      ExecStart=/sbin/agetty --autologin ubuntu -8 --keep-baud 115200,38400,9600 ttyS0 $TERM 
+  - path: /etc/bash.bashrc
+    content: |
+      echo hello world
+    append: true
+runcmd:
+  - sudo reboot
